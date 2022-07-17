@@ -1,1 +1,4 @@
 node_modules/*
+themes/*
+package-lock.json
+db.json
