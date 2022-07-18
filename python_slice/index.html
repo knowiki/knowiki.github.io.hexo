@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha256-DfWjNxDkM94fVBWx1H5BMMp0Zq7luBlV8QRcSES7s+0=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"knowiki.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.12.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Python 切片完全指南语法篇什么是切片操作在Python中，切片(slice)是对序列型对象(如list, string, tuple)的一种高级索引方法。普通索引只取出序列中一个下标对应的元素，而切片取出序列中一个范围对应的元素，这里的范围不是狭义上的连续片段。下面的代码初步展示了切片索引的力量。 12345678910111213&gt;&gt;&gt; a &#x3D; list(range(10">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python 切片完全指南">
+<meta property="og:url" content="https://knowiki.github.io/python_slice/index.html">
+<meta property="og:site_name" content="Know Wiki">
+<meta property="og:description" content="Python 切片完全指南语法篇什么是切片操作在Python中，切片(slice)是对序列型对象(如list, string, tuple)的一种高级索引方法。普通索引只取出序列中一个下标对应的元素，而切片取出序列中一个范围对应的元素，这里的范围不是狭义上的连续片段。下面的代码初步展示了切片索引的力量。 12345678910111213&gt;&gt;&gt; a &#x3D; list(range(10">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-18T01:37:34.000Z">
+<meta property="article:modified_time" content="2022-07-18T01:56:24.405Z">
+<meta property="article:author" content="knowiki">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://knowiki.github.io/python_slice/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://knowiki.github.io/python_slice/","path":"python_slice/","title":"Python 切片完全指南"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python 切片完全指南 | Know Wiki</title>
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Know Wiki</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">A Knowledge Base</p>
+      <img class="custom-logo-image" src="/img/logo.svg" alt="Know Wiki">
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-%E5%88%87%E7%89%87%E5%AE%8C%E5%85%A8%E6%8C%87%E5%8D%97"><span class="nav-number">1.</span> <span class="nav-text">Python 切片完全指南</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E7%AF%87"><span class="nav-number">1.1.</span> <span class="nav-text">语法篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%88%87%E7%89%87%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.1.</span> <span class="nav-text">什么是切片操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%B4%A2%E5%BC%95"><span class="nav-number">1.1.2.</span> <span class="nav-text">基本索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%88%87%E7%89%87"><span class="nav-number">1.1.3.</span> <span class="nav-text">简单切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B6%85%E5%87%BA%E6%9C%89%E6%95%88%E7%B4%A2%E5%BC%95%E8%8C%83%E5%9B%B4"><span class="nav-number">1.1.4.</span> <span class="nav-text">超出有效索引范围</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%BA%E7%9C%81"><span class="nav-number">1.1.5.</span> <span class="nav-text">缺省</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%88%87%E7%89%87"><span class="nav-number">1.1.6.</span> <span class="nav-text">扩展切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step%E4%B8%BA%E6%AD%A3%E6%95%B0"><span class="nav-number">1.1.7.</span> <span class="nav-text">step为正数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#step%E4%B8%BA%E8%B4%9F%E6%95%B0"><span class="nav-number">1.1.8.</span> <span class="nav-text">step为负数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.1.9.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E7%AF%87"><span class="nav-number">1.2.</span> <span class="nav-text">原理篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.2.1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95-getitem-%E5%92%8C-setitem"><span class="nav-number">1.2.2.</span> <span class="nav-text">魔术方法__getitem__和__setitem__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E7%89%87%E5%9C%A8-getitem-%E5%92%8C-setitem-%E4%B8%AD%E7%9A%84%E8%A1%8C%E4%B8%BA"><span class="nav-number">1.2.3.</span> <span class="nav-text">切片在__getitem__和__setitem__中的行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#slice%E7%B1%BB%E5%92%8Cindices%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.4.</span> <span class="nav-text">slice类和indices方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E6%94%AF%E6%8C%81%E7%B4%A2%E5%BC%95%E7%9A%84%E7%B1%BB"><span class="nav-number">1.2.5.</span> <span class="nav-text">自定义支持索引的类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">1.2.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">knowiki</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">60</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://knowiki.github.io/python_slice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="knowiki">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Know Wiki">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python 切片完全指南 | Know Wiki">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python 切片完全指南
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-07-18 09:37:34 / 修改时间：09:56:24" itemprop="dateCreated datePublished" datetime="2022-07-18T09:37:34+08:00">2022-07-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/" itemprop="url" rel="index"><span itemprop="name">计算机</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/%E7%A8%8B%E5%BA%8F/" itemprop="url" rel="index"><span itemprop="name">程序</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Python-切片完全指南"><a href="#Python-切片完全指南" class="headerlink" title="Python 切片完全指南"></a>Python 切片完全指南</h1><h2 id="语法篇"><a href="#语法篇" class="headerlink" title="语法篇"></a>语法篇</h2><h3 id="什么是切片操作"><a href="#什么是切片操作" class="headerlink" title="什么是切片操作"></a>什么是切片操作</h3><p>在Python中，<strong>切片(slice)<strong>是对序列型对象(如<code>list</code>, <code>string</code>, <code>tuple</code>)的一种高级索引方法。普通索引只取出序列中</strong>一个下标</strong>对应的元素，而切片取出序列中<strong>一个范围</strong>对应的元素，这里的范围不是狭义上的连续片段。下面的代码初步展示了切片索引的力量。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="built_in">list</span>(<span class="built_in">range</span>(<span class="number">10</span>))</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[:<span class="number">5</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">5</span>:]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>:<span class="number">8</span>]</span><br><span class="line">[<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[::<span class="number">2</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[::-<span class="number">1</span>]</span><br><span class="line">[<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<p>你可能还看不懂具体的<strong>语法</strong>(这正是本篇要介绍的)，但你应该已经领略到了切片的花式操作。</p>
+<p>写这篇文章的初衷是，一方面切片操作是Python中非常常见的，另一方面网上却很难找到<strong>全面系统</strong>的解析，比如以下结果是否让人有些迷惑：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">0</span>::-<span class="number">1</span>]</span><br><span class="line">[<span class="number">0</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">0</span>:<span class="built_in">len</span>(a):-<span class="number">1</span>]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<p>为什么有<code>len(a)</code>和省略<code>len(a)</code>结果会不一样？</p>
+<p>本文致力于真正讲清楚Python切片的使用方法。若您希望进一步了解切片的实现原理，以帮助我们自定义类的切片操作，敬请期待本文的续篇，<strong>《切片完全指南(原理篇)》</strong>。</p>
+<h3 id="基本索引"><a href="#基本索引" class="headerlink" title="基本索引"></a>基本索引</h3><p>我们从Python的基本索引开始，即<strong>单个整数</strong>的索引。假设被索引的序列仍为之前提到的<code>a</code>，则基本索引的语法为<code>a[index]</code>，其中<code>index</code>为下标。读者可能会觉得这里过于简单，但我们要强调的是Python一个语法糖：<strong>负数下标</strong>索引，即：<code>index</code>可以取为负数，当其为<code>-n</code>时，对倒数第<code>n</code>个元素进行索引。我们用一张表格值观展示<code>a</code>的索引范围。</p>
+<table>
+<thead>
+<tr>
+<th align="center">a中元素</th>
+<th align="center">0</th>
+<th align="center">1</th>
+<th align="center">2</th>
+<th align="center">3</th>
+<th align="center">4</th>
+<th align="center">5</th>
+<th align="center">6</th>
+<th align="center">7</th>
+<th align="center">8</th>
+<th align="center">9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>非负下标</strong></td>
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">2</td>
+<td align="center">3</td>
+<td align="center">4</td>
+<td align="center">5</td>
+<td align="center">6</td>
+<td align="center">7</td>
+<td align="center">8</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center"><strong>负数下标</strong></td>
+<td align="center">-10</td>
+<td align="center">-9</td>
+<td align="center">-8</td>
+<td align="center">-7</td>
+<td align="center">-6</td>
+<td align="center">-5</td>
+<td align="center">-4</td>
+<td align="center">-3</td>
+<td align="center">-2</td>
+<td align="center">-1</td>
+</tr>
+</tbody></table>
+<p>非负下标索引和负数下标索引共同构成了Python索引的<strong>有效范围</strong>：。有效范围的概念对切片的理解非常重要，在基本索引中，索引超出有效范围时会抛出<code>IndexError</code>异常：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">10</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">IndexError: <span class="built_in">list</span> index out of <span class="built_in">range</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[-<span class="number">11</span>]</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;&lt;stdin&gt;&quot;</span>, line <span class="number">1</span>, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">IndexError: <span class="built_in">list</span> index out of <span class="built_in">range</span></span><br></pre></td></tr></table></figure>
+
+<p>但在切片中<strong>不是这样</strong>，我们将在下文具体解释。</p>
+<h3 id="简单切片"><a href="#简单切片" class="headerlink" title="简单切片"></a>简单切片</h3><p>简单切片指的是这样的切片形式：<code>a[start:stop]</code>，其行为是得到下标在这样一个<strong>前闭后开区间</strong>范围内的元素，其中<code>start</code>和<code>stop</code>为负数时，简单看作是负数下标对应的位置即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">2</span>:<span class="number">3</span>]</span><br><span class="line">[<span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">5</span>:<span class="number">9</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">5</span>:-<span class="number">1</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[-<span class="number">5</span>:<span class="number">9</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[-<span class="number">5</span>:-<span class="number">1</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+
+<p>事情到这里也很简单，下面着重讲解两个比较特殊的情况：<strong>超出有效索引范围</strong>和<strong>缺省</strong>。</p>
+<h3 id="超出有效索引范围"><a href="#超出有效索引范围" class="headerlink" title="超出有效索引范围"></a>超出有效索引范围</h3><p>当<code>start</code>或<code>stop</code>超出上文提到的有效索引范围时，切片操作不会抛出异常，而是进行<strong>截断</strong>。可以这样去理解截断机制：我们假象把索引范围<strong>扩充</strong>到全体整数，只不过小于或大于的区域对应<strong>空元素</strong>，在这个扩充后的数轴上进行切片，只需把最终结果中的所有空元素忽略即可。</p>
+<p>来看几个具体的例子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[-<span class="number">100</span>:<span class="number">5</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">5</span>:<span class="number">100</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[-<span class="number">100</span>:<span class="number">100</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">100</span>:<span class="number">1000</span>]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<p>另外，如果<code>start</code>的位置比<code>stop</code>还靠后怎么办？Python还是不会抛出异常，而是直接返回空序列：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">6</span>:<span class="number">5</span>]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<h3 id="缺省"><a href="#缺省" class="headerlink" title="缺省"></a>缺省</h3><p><code>start</code>和<code>stop</code>都是可以缺省的，在缺省的情况下，Python的行为是<strong>尽可能取最大区间</strong>，具体来说：</p>
+<blockquote>
+<p>按照扩充索引范围的观点，<code>start</code>的缺省值是**无穷小()<strong>，<code>stop</code>的缺省值是</strong>无穷大()**。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[:<span class="number">5</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">5</span>:]</span><br><span class="line">[<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">100</span>:]</span><br><span class="line">[]</span><br></pre></td></tr></table></figure>
+
+<h3 id="扩展切片"><a href="#扩展切片" class="headerlink" title="扩展切片"></a>扩展切片</h3><p>早期的Python解释器仅支持上述<code>a[start:stop]</code>形式的基本切片，后来加入了下面要介绍的切片形式，<em>扩展切片</em>的名称也流传下来，实际上不用担心，这早已是Python所支持的<strong>标准</strong>语法。</p>
+<p>扩展切片指的是这样的切片形式：<code>a[start:stop:step]</code>，其中<code>step</code>是一个非零整数，即比简单切片多了调整<strong>步长</strong>的功能，此时切片的行为可概括为：从<code>start</code>对应的位置出发，以<code>step</code>为步长索引序列，直至越过<code>stop</code>对应的位置，且不包括<code>stop</code>本身。事实上，简单切片就是<code>step=1</code>的扩展切片的特殊情况。需要详细解释的是<code>step</code>分别为正数和负数的两种情况。</p>
+<h3 id="step为正数"><a href="#step为正数" class="headerlink" title="step为正数"></a><code>step</code>为正数</h3><p>当<code>step</code>为正数时，切片行为很容易理解，<code>start</code>和<code>stop</code>的<strong>截断</strong>和<strong>缺省</strong>规则也与简单切片完全一致：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">0</span>:<span class="number">6</span>:<span class="number">2</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[::<span class="number">2</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[:-<span class="number">2</span>:<span class="number">2</span>]</span><br><span class="line">[<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>, <span class="number">6</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">4</span>::<span class="number">2</span>]</span><br><span class="line">[<span class="number">4</span>, <span class="number">6</span>, <span class="number">8</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="step为负数"><a href="#step为负数" class="headerlink" title="step为负数"></a><code>step</code>为负数</h3><p>当<code>step</code>为负数时，切片将其解释为从<code>start</code>出发以步长<code>|step|</code><strong>逆序</strong>索引序列，此时，<code>start</code>和<code>stop</code>的<strong>截断</strong>依然遵循前述规则，但<strong>缺省</strong>发生一点变化，因为我们说过，在缺省的情况下，Python的行为是<strong>尽可能取最大区间</strong>，此时访问是<strong>逆序</strong>的，<code>start</code>应尽量取大，<code>stop</code>应尽量取小，才能保证区间最大，因此：</p>
+<blockquote>
+<p>按照扩充索引范围的观点，<code>start</code>的缺省值是<strong>无穷大()<strong>，<code>stop</code>的缺省值是</strong>无穷小()</strong></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[<span class="number">5</span>::-<span class="number">1</span>]</span><br><span class="line">[<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[:<span class="number">4</span>:-<span class="number">2</span>]</span><br><span class="line">[<span class="number">9</span>, <span class="number">7</span>, <span class="number">5</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a[::-<span class="number">1</span>]</span><br><span class="line">[<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>, <span class="number">6</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>本文着重介绍了Python中序列类型对象的<strong>切片</strong>操作<strong>语法</strong>，通过引入<strong>扩充索引范围</strong>解释了切片操作的<strong>截断</strong>和<strong>缺省</strong>两个较难理解的行为。</p>
+<h2 id="原理篇"><a href="#原理篇" class="headerlink" title="原理篇"></a>原理篇</h2><h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>在上一篇文章<strong>《[Python]切片完全指南(语法篇)》</strong>中，我着重从<strong>语法</strong>层面介绍了怎样使用切片，并用语言解释了切片的行为，例如我们拓宽了<strong>有效索引范围</strong>的概念，并把缺省值解释成拓宽范围中的无穷大。但显然，这些解释不是计算机所能理解的，那么在Python内部，切片操作到底是如何运作的呢？本篇文章将会进行深入探究。</p>
+<p><strong>注</strong>：本文的讨论基于<strong>Python3</strong>，与<strong>python2</strong>中略有差异。</p>
+<h3 id="魔术方法-getitem-和-setitem"><a href="#魔术方法-getitem-和-setitem" class="headerlink" title="魔术方法__getitem__和__setitem__"></a>魔术方法<code>__getitem__</code>和<code>__setitem__</code></h3><p>在Python中，<code>[]</code>常用于对对象进行索引，包括对单个位置的下标索引，以及本文关注的对某个范围的切片索引：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>l</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(l[<span class="number">0</span>])</span><br><span class="line"><span class="number">0</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l[<span class="number">0</span>] = <span class="number">10</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(l)</span><br><span class="line">[<span class="number">10</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">print</span>(l[:<span class="number">5</span>])</span><br><span class="line">[<span class="number">10</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+
+<p>在上面的例子中，实际上包含着两种不同的索引，一种是<strong>取值</strong>，另一种是<strong>赋值</strong>。</p>
+<p>在Python中，这两类索引是依靠两个不同的<strong>魔术方法</strong>分别实现的：取值实际上调用了<code>__getitem__</code>方法，赋值实际上调用了<code>__setitem__</code>方法，我们现在在自定义类中重载这两个函数，来展示他们是何时以及如何被调用的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;__getitem__ is called&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;key=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(key))</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__setitem__</span>(<span class="params">self, key, val</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;__setitem__ is called&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;key=&#123;&#125;, val=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(key, val))</span><br></pre></td></tr></table></figure>
+
+<p>如上所示，<code>__getitem__</code>接受一个参数<code>key</code>，Python实际上将<code>[]</code>中的索引值作为该参数传入，在<code>A</code>的实现中，<code>__getitem__</code>在被调用时将打印提示信息以及<code>key</code>的值；<code>__setitem__</code>接受两个参数<code>key</code>和<code>val</code>，Python实际上将<code>[]</code>中的索引值作为<code>key</code>传入，将要赋的值作为<code>val</code>传入，在<code>A</code>的实现中，<code>__setitem__</code>在被调用时将打印提示信息以及<code>key</code>和<code>val</code>的值。下面是例子:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice = A()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">3</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">5</span>] = <span class="number">7</span></span><br><span class="line">__setitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="number">5</span>, val=<span class="number">7</span></span><br></pre></td></tr></table></figure>
+
+<p>这是我们跨出的第一步：索引操作本身是怎样运作的。</p>
+<h3 id="切片在-getitem-和-setitem-中的行为"><a href="#切片在-getitem-和-setitem-中的行为" class="headerlink" title="切片在__getitem__和__setitem__中的行为"></a>切片在<code>__getitem__</code>和<code>__setitem__</code>中的行为</h3><p>当<code>[]</code>中是切片语法，例如<code>[start:stop]</code>，<code>[start:stop:step]</code>等时，上述两个魔术方法是怎样运作的呢？Python通过语法解析，实际上传入了一个内置类型<code>**slice**</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">0</span>:<span class="number">3</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="built_in">slice</span>(<span class="number">0</span>, <span class="number">3</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[:<span class="number">5</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="built_in">slice</span>(<span class="literal">None</span>, <span class="number">5</span>, <span class="literal">None</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[:<span class="number">100</span>:<span class="number">5</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="built_in">slice</span>(<span class="literal">None</span>, <span class="number">100</span>, <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，python实际上向<code>__getitem__</code>传入了一个<code>slice</code>类的对象，这个类有<code>start</code>, <code>stop</code>, <code>step</code>三个属性，缺省值都是<code>None</code>。</p>
+<p>事实上，<strong>切片</strong>同样可以进行赋值：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>l</span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l[:<span class="number">5</span>] = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>l</span><br><span class="line">[<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br></pre></td></tr></table></figure>
+
+<p>此时<code>__setitem__</code>传入的同样是一个<code>slice</code>类对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">0</span>:<span class="number">3</span>] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">__setitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="built_in">slice</span>(<span class="number">0</span>, <span class="number">3</span>, <span class="literal">None</span>), val=[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+<p>下面我们详细介绍<code>slice</code>类是什么。</p>
+<h3 id="slice类和indices方法"><a href="#slice类和indices方法" class="headerlink" title="slice类和indices方法"></a><code>slice</code>类和<code>indices</code>方法</h3><p><code>slice</code>是Python的一个内置类，其具体实现应该参看<strong>Cython</strong>源码，这里我们只介绍它的接口。Python的内置函数<code>dir()</code>可用于查看对象的属性、方法列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">dir</span>(<span class="built_in">slice</span>)</span><br><span class="line">[<span class="string">&#x27;__class__&#x27;</span>, <span class="string">&#x27;__delattr__&#x27;</span>, <span class="string">&#x27;__dir__&#x27;</span>, <span class="string">&#x27;__doc__&#x27;</span>, <span class="string">&#x27;__eq__&#x27;</span>, <span class="string">&#x27;__format__&#x27;</span>, <span class="string">&#x27;__ge__&#x27;</span>, <span class="string">&#x27;__getattribute__&#x27;</span>, <span class="string">&#x27;__gt__&#x27;</span>, <span class="string">&#x27;__hash__&#x27;</span>, <span class="string">&#x27;__init__&#x27;</span>, <span class="string">&#x27;__init_subclass__&#x27;</span>, <span class="string">&#x27;__le__&#x27;</span>, <span class="string">&#x27;__lt__&#x27;</span>, <span class="string">&#x27;__ne__&#x27;</span>, <span class="string">&#x27;__new__&#x27;</span>, <span class="string">&#x27;__reduce__&#x27;</span>, <span class="string">&#x27;__reduce_ex__&#x27;</span>, <span class="string">&#x27;__repr__&#x27;</span>, <span class="string">&#x27;__setattr__&#x27;</span>, <span class="string">&#x27;__sizeof__&#x27;</span>, <span class="string">&#x27;__str__&#x27;</span>, <span class="string">&#x27;__subclasshook__&#x27;</span>, <span class="string">&#x27;indices&#x27;</span>, <span class="string">&#x27;start&#x27;</span>, <span class="string">&#x27;step&#x27;</span>, <span class="string">&#x27;stop&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，除了被双下划线包围的魔术方法外，<code>slice</code>类只有四个成员，其中<code>start</code>, <code>stop</code>, <code>step</code>是成员变量，<code>indices</code>类是成员函数，根据**<a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/datamodel.html">官方文档</a>**：</p>
+<blockquote>
+<p>This method takes a single integer argument <em>length</em> and computes information about the slice that the slice object would describe if applied to a sequence of <em>length</em> items. It returns a tuple of three integers; respectively these are the <em>start</em> and <em>stop</em> indices and the <em>step</em> or stride length of the slice. Missing or out-of-bounds indices are handled in a manner consistent with regular slices.</p>
+<p>此方法接受一个整型参数 <em>length</em> 并计算在切片对象被应用到 <em>length</em> 指定长度的条目序列时切片的相关信息应如何描述。 其返回值为三个整型数组成的元组；这些数分别为切片的 <em>start</em> 和 <em>stop</em> 索引号以及 <em>step</em> 步长值。索引号缺失或越界则按照与正规切片相一致的方式处理。</p>
+</blockquote>
+<p><code>indices</code>接受一个整数参数<code>length</code>，返回一个整数三元组，分别代表<code>start</code>, <code>stop</code>, <code>step</code>. 但与原来<code>slice</code>中的三个参数不同的是：</p>
+<ul>
+<li>返回的一定是具体整数值，不会再有缺省值<code>None</code>。</li>
+<li>返回的整数范围是为参数<code>length</code>“定制”，即一定是<code>[0, length]</code>范围的有效索引。</li>
+</ul>
+<p>下面的代码<strong>最直观地</strong>说明了<code>indices</code>函数的作用：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = <span class="built_in">slice</span>(<span class="number">5</span>, <span class="number">10</span>, <span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = a.indices(<span class="number">20</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b</span><br><span class="line">(<span class="number">5</span>, <span class="number">10</span>, <span class="number">2</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="built_in">list</span>(<span class="built_in">range</span>(*b))</span><br><span class="line">[<span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>]</span><br></pre></td></tr></table></figure>
+
+<p><code>indices</code>所返回的三个值是为其参数<code>20</code>量身定制的，即假设用<code>[5:10:2]</code>去对一个长度为<code>20</code>的列表进行切片，其<strong>真正</strong>的<code>start</code>, <code>stop</code>, <code>step</code>分别是多少。这为我们省去了自己编写<code>slice</code>的扩展范围索引和缺省值规则的麻烦。并且，这三个值恰好可作为内置函数<code>range()</code>的参数，得到<strong>索引下标</strong>的列表。</p>
+<p>另外，上述代码中我们用到了Python的内置函数<code>slice()</code>，顾名思义，就是用来返回一个<code>slice</code>类的。</p>
+<h3 id="自定义支持索引的类"><a href="#自定义支持索引的类" class="headerlink" title="自定义支持索引的类"></a>自定义支持索引的类</h3><p>我们之前已经定义过一个重载了<code>__getitem__</code>和<code>__setitem__</code>的类，以支持<code>[]</code>操作符索引，并打印出相关信息，这里我们进一步，判断是否是<strong>切片</strong>操作，如果是，打印出<strong>实际</strong>被索引的下标列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>():</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.data = <span class="string">&#x27;Python&#x27;</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;__getitem__ is called&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(key, <span class="built_in">slice</span>):</span><br><span class="line">            start, stop, step = key.indices(<span class="built_in">len</span>(self.data))</span><br><span class="line">            index_list = <span class="built_in">list</span>(<span class="built_in">range</span>(start, stop, step))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;keys=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(index_list))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;key=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(key))</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__setitem__</span>(<span class="params">self, key, val</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;__setitem__ is called&#x27;</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">isinstance</span>(key, <span class="built_in">slice</span>):</span><br><span class="line">            start, stop, step = key.indices(<span class="built_in">len</span>(self.data))</span><br><span class="line">            index_list = <span class="built_in">list</span>(<span class="built_in">range</span>(start, stop, step))</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;keys=&#123;&#125;, vals=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(index_list, val))</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&#x27;key=&#123;&#125;, vals=&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(key, val))</span><br></pre></td></tr></table></figure>
+
+<p>假设所定义的类内部被索引的数据是一个字符串<code>Python</code>，我们先判断传入的<code>key</code>类型，如果是<code>slice</code>类，则利用其<code>indices</code>方法得到实际的<code>start</code>, <code>stop</code>, <code>step</code>，进而利用<code>range</code>得到实际的下标列表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice = A()</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">3</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="number">3</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">5</span>] = <span class="number">7</span></span><br><span class="line">__setitem__ <span class="keyword">is</span> called</span><br><span class="line">key=<span class="number">5</span>, vals=<span class="number">7</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[:<span class="number">3</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">keys=[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[<span class="number">4</span>:] = [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]</span><br><span class="line">__setitem__ <span class="keyword">is</span> called</span><br><span class="line">keys=[<span class="number">4</span>, <span class="number">5</span>], vals=[<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>mySlice[::-<span class="number">1</span>]</span><br><span class="line">__getitem__ <span class="keyword">is</span> called</span><br><span class="line">keys=[<span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>本文介绍了Python进行索引和切片的原理，主要是利用两个魔术方法<code>__getitem__</code>和<code>__setitem__</code>，以及内置类型<code>slice</code>及其方法<code>indices</code>。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li>[<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79541418">Python]切片完全指南(语法篇) - 知乎 (zhihu.com)</a></li>
+<li>[<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/79752359">Python]切片完全指南(原理篇) - 知乎 (zhihu.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.python.org/zh-cn/3/reference/expressions.html?highlight=%E5%88%87%E7%89%87#slicings">6.3.3. 切片 - Python 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017269965565856">切片 - 廖雪峰的官方网站 (liaoxuefeng.com)</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/python_date_time/" rel="prev" title="Python 日期时间">
+                  <i class="fa fa-chevron-left"></i> Python 日期时间
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">knowiki</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
